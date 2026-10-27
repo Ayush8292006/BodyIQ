@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BodyIQ web app</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F3EC}
+a{color:#7A6247}a:hover{color:#111111}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F3EC; color: #111111; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<aside style="flex: 1 1 240px; max-width: 100%; box-sizing: border-box; background: #111111; color: #FFFFFF; padding: 28px 20px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 42px; height: 42px; border-radius: 21px; background: #EFE7DB; color: #111111; display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-stretch: 120%; font-weight: 900; font-size: 14px">BIQ</div>
+<div>
+<div style="font-family: 'Archivo', sans-serif; font-stretch: 120%; font-weight: 800; font-size: 21px; letter-spacing: 0.5px">BODY<span style="color: #D9C9B2">IQ</span></div>
+<div style="font-size: 10px; letter-spacing: 1.4px; color: #BDB3A6">SMARTER FITNESS</div>
+</div>
+</div>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; flex-direction: row; gap: 6px">
+<sc-for list="{{navItems}}" as="n" hint-placeholder-count="5">
+<button onClick="{{n.go}}" style="{{n.style}}">{{n.label}}</button>
+</sc-for>
+</nav>
+<div style="margin-top: auto; background: #1E1C1A; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 13px; font-weight: 600">Get the mobile app</div>
+<div style="font-size: 12px; color: #BDB3A6; line-height: 1.5">Log sets at the gym and sync steps from your phone.</div>
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 40px; border-radius: 20px; background: #EFE7DB; color: #111111; font-weight: 700; font-size: 13px; text-decoration: none">Open app preview</a>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px clamp(16px, 3vw, 44px) 48px; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+<div>
+<div style="font-size: 14px; color: #6B6359; font-weight: 500">Tuesday, 27 October</div>
+<h1 style="margin: 4px 0 0; font-family: 'Archivo', sans-serif; font-stretch: 110%; font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1.1">{{heading}}</h1>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<label style="display: flex; align-items: center; gap: 8px; height: 46px; padding: 0 16px; border-radius: 23px; background: #FFFFFF; border: 1px solid #E3D9CB; min-width: 220px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search</span>
+<input type="search" placeholder="Search exercises, foods" style="border: none; outline: none; background: transparent; font-family: inherit; font-size: 14px; flex: 1; min-width: 0; color: #111111">
+</label>
+<button onClick="{{goWorkouts}}" style="height: 46px; padding: 0 22px; border-radius: 23px; border: none; background: #111111; color: #FFFFFF; font-weight: 700; font-size: 14px">Start workout</button>
+</div>
+</div>
+
+<sc-if value="{{isDash}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div style="{{k.card}}">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 13px; font-weight: 600">{{k.label}}</span><span style="{{k.chip}}">{{k.tag}}</span></div>
+<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1">{{k.value}} <span style="font-size: 14px; font-weight: 600">{{k.unit}}</span></div>
+<div style="height: 6px; border-radius: 3px; background: rgba(17,17,17,0.08)"><div style="{{k.bar}}"></div></div>
+<span style="font-size: 12px; opacity: 0.75">{{k.sub}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+<div style="background: #111111; color: #FFFFFF; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 11px; letter-spacing: 1.4px; color: #D9C9B2; font-weight: 600">TODAY · PUSH DAY</span><span style="font-size: 12px; color: #D9C9B2">55 min · Gym</span></div>
+<div style="font-family: 'Archivo', sans-serif; font-stretch: 110%; font-weight: 800; font-size: 28px">Chest &amp; Triceps</div>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{plan}}" as="e" hint-placeholder-count="5">
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-top: 1px solid #2E2B27; font-size: 14px"><span>{{e.name}}</span><span style="color: #CFC6BA">{{e.sets}}</span></div>
+</sc-for>
+</div>
+<button onClick="{{goWorkouts}}" style="height: 48px; border-radius: 24px; border: none; background: #EFE7DB; color: #111111; font-weight: 700; font-size: 15px">Open workout logger</button>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start">
+<div><div style="font-weight: 700; font-size: 17px">Steps this week</div><div style="font-size: 13px; color: #6B6359; margin-top: 2px">Average 8,210 · goal 10,000</div></div>
+<span style="font-size: 12px; font-weight: 700; background: #EFE7DB; color: #5E5247; padding: 6px 10px; border-radius: 12px">Health Connect</span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 12px; height: 200px; padding-top: 8px; border-bottom: 1px solid #E8E0D4; position: relative">
+<div style="position: absolute; left: 0; right: 0; bottom: 160px; border-top: 1px dashed #CDBFAA"></div>
+<sc-for list="{{steps}}" as="d" hint-placeholder-count="7">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; justify-content: flex-end; height: 100%">
+<span style="font-size: 11px; color: #6B6359; font-weight: 600">{{d.short}}</span>
+<div style="{{d.bar}}"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 12px">
+<sc-for list="{{steps}}" as="d" hint-placeholder-count="7">
+<span style="flex: 1; text-align: center; font-size: 12px; color: #6B6359">{{d.day}}</span>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px"><span style="font-weight: 700; font-size: 17px">Meals today</span><button onClick="{{goDiet}}" style="border: none; background: transparent; color: #7A6247; font-weight: 700; font-size: 13px; min-height: 36px">View diet</button></div>
+<sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #F0EAE0">
+<div style="width: 40px; height: 40px; border-radius: 12px; background: #EFE7DB; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #5E5247">{{m.short}}</div>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600; font-size: 14px">{{m.name}}</div><div style="font-size: 12px; color: #6B6359">{{m.items}}</div></div>
+<span style="{{m.kcalStyle}}">{{m.kcal}}</span>
+</div>
+</sc-for>
+</div>
+<div style="background: #EFE7DB; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 700; font-size: 17px; margin-bottom: 6px">Personal records</div>
+<sc-for list="{{prs}}" as="p" hint-placeholder-count="3">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #FFFFFF; border-radius: 16px">
+<div><div style="font-weight: 600; font-size: 14px">{{p.name}}</div><div style="font-size: 12px; color: #6B6359">{{p.date}}</div></div>
+<span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px">{{p.kg}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isWorkouts}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="flex: 1 1 280px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 700; font-size: 17px">My routines</div>
+<sc-for list="{{routines}}" as="r" hint-placeholder-count="4">
+<button onClick="{{r.pick}}" style="{{r.style}}"><span style="font-weight: 700; font-size: 15px">{{r.name}}</span><span style="font-size: 12px; opacity: 0.75">{{r.meta}}</span></button>
+</sc-for>
+<button style="height: 46px; border-radius: 16px; border: 1px dashed #CDBFAA; background: transparent; color: #111111; font-weight: 600; font-size: 14px">+ New routine</button>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 2 1 480px; min-width: 0; box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center">
+<div><div style="font-size: 12px; letter-spacing: 1.2px; color: #7A6247; font-weight: 700">LIVE WORKOUT</div><div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 24px">{{routineName}}</div></div>
+<div style="display: flex; gap: 10px"><span style="font-size: 13px; font-weight: 700; background: #EFE7DB; padding: 10px 14px; border-radius: 14px">24:18</span><span style="font-size: 13px; font-weight: 700; background: #111111; color: #FFFFFF; padding: 10px 14px; border-radius: 14px">{{volume}} kg</span></div>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 460px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: grid; grid-template-columns: 2fr 60px 1.2fr 80px 70px 56px; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; color: #6B6359; padding: 8px 10px">
+<span>EXERCISE</span><span>SET</span><span>PREVIOUS</span><span>KG</span><span>REPS</span><span>DONE</span>
+</div>
+<sc-for list="{{sets}}" as="s" hint-placeholder-count="5">
+<div style="{{s.rowStyle}}">
+<span style="font-weight: 600">{{s.ex}}</span><span>{{s.no}}</span><span style="color: #6B6359">{{s.prev}}</span><span style="font-weight: 600">{{s.kg}}</span><span style="font-weight: 600">{{s.reps}}</span>
+<button onClick="{{s.toggle}}" aria-label="{{s.label}}" style="{{s.checkStyle}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</div>
+<button style="align-self: flex-end; height: 48px; padding: 0 28px; border-radius: 24px; border: none; background: #111111; color: #FFFFFF; font-weight: 700; font-size: 15px">Finish workout</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDiet}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="flex: 1 1 280px; box-sizing: border-box; background: #111111; color: #FFFFFF; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="font-size: 13px; color: #CFC6BA">Daily target 2,200 kcal</div>
+<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 44px; line-height: 1">780 <span style="font-size: 16px; font-weight: 600; color: #CFC6BA">kcal left</span></div>
+<sc-for list="{{macros}}" as="m" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span style="font-weight: 600">{{m.name}}</span><span style="color: #CFC6BA">{{m.val}}</span></div>
+<div style="height: 8px; border-radius: 4px; background: #2E2B27"><div style="{{m.bar}}"></div></div>
+</div>
+</sc-for>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 8px; flex: 2 1 480px; min-width: 0; box-sizing: border-box">
+<div style="font-weight: 700; font-size: 17px; margin-bottom: 6px">Food log</div>
+<sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid #F0EAE0">
+<div style="width: 44px; height: 44px; border-radius: 14px; background: #EFE7DB; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #5E5247">{{m.short}}</div>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600; font-size: 15px">{{m.name}}</div><div style="font-size: 13px; color: #6B6359">{{m.items}}</div></div>
+<span style="{{m.kcalStyle}}">{{m.kcal}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isProgress}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 2 1 480px; min-width: 0; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px">
+<div><div style="font-size: 13px; color: #6B6359">Body weight</div><div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 36px">72.4 <span style="font-size: 16px">kg</span></div></div>
+<span style="font-size: 12px; font-weight: 700; background: #EFE7DB; color: #5E5247; padding: 6px 10px; border-radius: 12px">−2.1 kg in 6 weeks</span>
+</div>
+<svg width="100%" height="220" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Weight trend falling from 74.5 to 72.4 kg over six weeks"><line x1="0" y1="40" x2="600" y2="40" stroke="#F0EAE0"></line><line x1="0" y1="110" x2="600" y2="110" stroke="#F0EAE0"></line><line x1="0" y1="180" x2="600" y2="180" stroke="#F0EAE0"></line><polyline points="10,34 106,58 202,70 298,104 394,118 490,150 590,172" fill="none" stroke="#111111" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline><circle cx="590" cy="172" r="6" fill="#111111"></circle></svg>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #6B6359"><span>Sep 15</span><span>Sep 29</span><span>Oct 13</span><span>Oct 27</span></div>
+</div>
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{measures}}" as="m" hint-placeholder-count="4">
+<div style="background: #EFE7DB; border-radius: 18px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 600; font-size: 14px">{{m.k}}</span><span><b style="font-size: 17px">{{m.v}}</b> <span style="font-size: 12px; color: #5E5247">{{m.d}}</span></span></div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isSettings}}" hint-placeholder-val="{{false}}">
+<div style="background: #FFFFFF; border: 1px solid #E8E0D4; border-radius: 26px; padding: 8px 24px; max-width: 640px">
+<sc-for list="{{profile}}" as="row" hint-placeholder-count="6">
+<div style="display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #F0EAE0; font-size: 15px"><span style="color: #6B6359">{{row.k}}</span><span style="font-weight: 600">{{row.v}}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1060}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      section: 'dash', routine: 0,
+      sets: [
+        { ex: 'Bench Press', prev: '70 × 10', kg: '72.5', reps: '10', done: true },
+        { ex: 'Bench Press', prev: '72.5 × 8', kg: '75', reps: '8', done: true },
+        { ex: 'Bench Press', prev: '75 × 6', kg: '77.5', reps: '6', done: false },
+        { ex: 'Incline DB Press', prev: '20 × 10', kg: '22.5', reps: '10', done: false },
+        { ex: 'Rope Pushdown', prev: '22.5 × 12', kg: '25', reps: '12', done: false }
+      ]
+    };
+  }
+  renderVals() {
+    const st = this.state;
+    const sec = st.section;
+    const go = (x) => () => this.setState({ section: x });
+    const items = [['dash', 'Dashboard'], ['workouts', 'Workouts'], ['diet', 'Diet'], ['progress', 'Progress'], ['settings', 'Profile']];
+    const navItems = items.map((it) => ({
+      label: it[1], go: go(it[0]),
+      style: 'flex: 1 1 100%; min-height: 46px; padding: 0 16px; border-radius: 14px; border: none; text-align: left; font-size: 14px; ' +
+        (it[0] === sec ? 'background: #EFE7DB; color: #111111; font-weight: 700' : 'background: transparent; color: #D6CEC3; font-weight: 500')
+    }));
+    const headings = { dash: 'Good morning, Aarav', workouts: 'Workouts', diet: 'Diet & calories', progress: 'Progress', settings: 'Profile & goals' };
+    const kpis = [
+      { label: 'Calories', value: '1,420', unit: 'kcal', sub: '780 left of 2,200', tag: '65%', pct: 65, dark: true },
+      { label: 'Steps', value: '6,840', unit: '', sub: 'Goal 10,000 · 4.9 km', tag: '68%', pct: 68, dark: false },
+      { label: 'Workouts', value: '4', unit: 'of 5', sub: 'This week', tag: 'On track', pct: 80, dark: false },
+      { label: 'Weight', value: '72.4', unit: 'kg', sub: 'Target 75 kg', tag: '−2.1 kg', pct: 55, dark: false }
+    ].map((k) => Object.assign({}, k, {
+      card: 'border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 14px; ' + (k.dark ? 'background: #111111; color: #FFFFFF' : k.label === 'Steps' ? 'background: #EFE7DB; color: #111111' : 'background: #FFFFFF; color: #111111; border: 1px solid #E8E0D4'),
+      chip: 'font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 10px; ' + (k.dark ? 'background: #2E2B27; color: #E8DCC9' : 'background: #F4EEE4; color: #5E5247'),
+      bar: 'height: 6px; border-radius: 3px; width: ' + k.pct + '%; ' + (k.dark ? 'background: #E8DCC9' : 'background: #111111')
+    }));
+    const stepVals = [9120, 10450, 7330, 8840, 6210, 7690, 6840];
+    const steps = ['Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue'].map((d, i) => ({
+      day: d, short: (stepVals[i] / 1000).toFixed(1) + 'k',
+      bar: 'width: 100%; max-width: 44px; border-radius: 10px 10px 4px 4px; height: ' + Math.round(stepVals[i] / 10000 * 160) + 'px; ' + (i === 6 ? 'background: #111111' : stepVals[i] >= 10000 ? 'background: #7A6247' : 'background: #E3D6C3')
+    }));
+    const routineList = [
+      { name: 'Push Day', meta: 'Chest, shoulders, triceps · 6 exercises' },
+      { name: 'Pull Day', meta: 'Back, biceps · 6 exercises' },
+      { name: 'Leg Day', meta: 'Quads, hamstrings, calves · 5 exercises' },
+      { name: 'Home Full Body', meta: 'No equipment · 20 min' }
+    ];
+    const routines = routineList.map((r, i) => Object.assign({}, r, {
+      pick: () => this.setState({ routine: i }),
+      style: 'display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 16px; border-radius: 16px; text-align: left; ' + (i === st.routine ? 'border: none; background: #111111; color: #FFFFFF' : 'border: 1px solid #E8E0D4; background: #FFFFFF; color: #111111')
+    }));
+    const sets = st.sets.map((x, i) => ({
+      ex: x.ex, no: String(i < 3 ? i + 1 : i - 2), prev: x.prev, kg: x.kg, reps: x.reps,
+      label: (x.done ? 'Mark not done: ' : 'Mark done: ') + x.ex,
+      rowStyle: 'display: grid; grid-template-columns: 2fr 60px 1.2fr 80px 70px 56px; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 14px; font-size: 14px; ' + (x.done ? 'background: #F4EEE4' : 'background: transparent'),
+      checkStyle: 'width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; ' + (x.done ? 'border: none; background: #111111; color: #FFFFFF' : 'border: 1.5px solid #CDBFAA; background: #FFFFFF; color: #CDBFAA'),
+      toggle: () => this.setState({ sets: this.state.sets.map((y, j) => j === i ? Object.assign({}, y, { done: !y.done }) : y) })
+    }));
+    const volume = st.sets.filter((x) => x.done).reduce((a, x) => a + parseFloat(x.kg) * parseInt(x.reps, 10), 0);
+    const meals = [
+      { short: 'BF', name: 'Breakfast', items: 'Poha, masala chai', kcal: '320 kcal', logged: true },
+      { short: 'LN', name: 'Lunch', items: 'Dal, 2 roti, paneer sabzi', kcal: '610 kcal', logged: true },
+      { short: 'SN', name: 'Snacks', items: 'Greek yogurt, almonds', kcal: '490 kcal', logged: true },
+      { short: 'DN', name: 'Dinner', items: 'Suggested: grilled chicken, rice', kcal: '+ Add', logged: false }
+    ].map((m) => Object.assign({}, m, { kcalStyle: 'font-size: 13px; font-weight: 700; white-space: nowrap; ' + (m.logged ? 'color: #111111' : 'color: #7A6247') }));
+    const macros = [
+      { name: 'Protein', val: '92 / 140 g', pct: 66 },
+      { name: 'Carbs', val: '160 / 250 g', pct: 64 },
+      { name: 'Fat', val: '41 / 70 g', pct: 59 }
+    ].map((m) => Object.assign({}, m, { bar: 'height: 8px; border-radius: 4px; background: #E8DCC9; width: ' + m.pct + '%' }));
+    return {
+      isDash: sec === 'dash', isWorkouts: sec === 'workouts', isDiet: sec === 'diet', isProgress: sec === 'progress', isSettings: sec === 'settings',
+      heading: headings[sec], navItems: navItems, kpis: kpis, steps: steps, meals: meals, macros: macros,
+      goWorkouts: go('workouts'), goDiet: go('diet'),
+      routines: routines, routineName: routineList[st.routine].name, sets: sets, volume: volume.toLocaleString('en-IN'),
+      plan: [
+        { name: 'Bench Press', sets: '3 × 6–10' }, { name: 'Incline Dumbbell Press', sets: '3 × 10' },
+        { name: 'Cable Fly', sets: '3 × 12' }, { name: 'Overhead Press', sets: '3 × 8' }, { name: 'Tricep Rope Pushdown', sets: '3 × 12' }
+      ],
+      prs: [
+        { name: 'Bench Press', date: 'Today', kg: '77.5 kg' }, { name: 'Back Squat', date: '21 Oct', kg: '110 kg' }, { name: 'Deadlift', date: '14 Oct', kg: '140 kg' }
+      ],
+      measures: [
+        { k: 'Chest', v: '98 cm', d: '+1.5' }, { k: 'Waist', v: '82 cm', d: '−3.0' }, { k: 'Arms', v: '35 cm', d: '+1.0' }, { k: 'Thighs', v: '56 cm', d: '+0.5' }
+      ],
+      profile: [
+        { k: 'Name', v: 'Aarav Kapoor' }, { k: 'Goal', v: 'Build muscle' }, { k: 'Height', v: '176 cm' }, { k: 'Target weight', v: '75 kg' },
+        { k: 'Calorie target', v: '2,200 kcal' }, { k: 'Step goal', v: '10,000' }, { k: 'Diet', v: 'Vegetarian + eggs' }, { k: 'Connected', v: 'Health Connect' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
